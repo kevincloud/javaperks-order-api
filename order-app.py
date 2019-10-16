@@ -30,7 +30,10 @@ class DecimalEncoder(json.JSONEncoder):
 @app.route('/_check_ddb', strict_slashes=False, methods=['Get'])
 def check_ddb():
     testdb = boto3.client('dynamodb', aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=aws_region)
-    return json.dumps(testdb.describe_table(TableName=tablename))
+
+    response = testdb.describe_table(TableName=tablename)
+    tbl = response['Table']['TableName']
+    return "Success! DynamoDB table '"+tbl+"' is accessible!"
 
 @app.route('/_check_app', strict_slashes=False, methods=['Get'])
 def check_app():
@@ -38,7 +41,7 @@ def check_app():
 
 @app.route('/version', strict_slashes=False, methods=['Get'])
 def get_version():
-    return "{ \"api\": \"order-api\", \"version\": \"1.1.3\" }"
+    return "{ \"api\": \"order-api\", \"version\": \"1.1.4\" }"
 
 @app.route('/order', strict_slashes=False, methods=['POST'])
 def save_order():
