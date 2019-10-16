@@ -30,7 +30,15 @@ class DecimalEncoder(json.JSONEncoder):
 @app.route('/_check_ddb', strict_slashes=False, methods=['Get'])
 def check_ddb():
     testdb = boto3.client('dynamodb')
-    json.dumps(testdb.describe_table(tablename))
+    return json.dumps(testdb.describe_table(tablename))
+
+@app.route('/_check_app', strict_slashes=False, methods=['Get'])
+def check_app():
+    return "{ \"success\": \"true\", \"status\": \"Alive!\" }"
+
+@app.route('/version', strict_slashes=False, methods=['Get'])
+def get_version():
+    return "{ \"api\": \"order-api\", \"version\": \"1.1.1\" }"
 
 @app.route('/order', strict_slashes=False, methods=['POST'])
 def save_order():
