@@ -27,6 +27,10 @@ class DecimalEncoder(json.JSONEncoder):
                 return int(o)
         return super(DecimalEncoder, self).default(o)
 
+@app.route('/_check_ddb', strict_slashes=False, methods=['Get'])
+def check_ddb():
+    testdb = boto3.client('dynamodb')
+    json.dumps(testdb.describe_table(tablename))
 
 @app.route('/order', strict_slashes=False, methods=['POST'])
 def save_order():
@@ -165,5 +169,5 @@ def get_order(order_id):
 #     return image_name
 
 if __name__=='__main__':
-    app.run(host='0.0.0.0', debug=True, port=5826)
+    app.run(host='0.0.0.0', debug=True, port=80)
 
