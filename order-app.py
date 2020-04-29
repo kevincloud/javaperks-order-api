@@ -9,10 +9,15 @@ import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from datetime import datetime
 
-access_key = os.environ["AWS_ACCESS_KEY"]
-secret_key = os.environ["AWS_SECRET_KEY"]
-aws_region = os.environ["AWS_REGION"]
-tablename = os.environ["DDB_TABLE_NAME"]
+access_key = os.getenv["AWS_ACCESS_KEY"]
+secret_key = os.getenv["AWS_SECRET_KEY"]
+aws_region = os.getenv["AWS_REGION"]
+tablename = os.getenv["DDB_TABLE_NAME"]
+connect = os.getenv["LOCALHOST_ONLY"]
+
+ipaddr = "0.0.0.0"
+if (connect == "true"):
+    ipaddr = "127.0.0.1"
 
 app = Flask(__name__)
 CORS(app)
@@ -180,5 +185,5 @@ def get_order(order_id):
 #     return image_name
 
 if __name__=='__main__':
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host=ipaddr, debug=True, port=5824)
 
