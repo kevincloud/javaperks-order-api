@@ -11,6 +11,7 @@ from datetime import datetime
 
 access_key = os.getenv("AWS_ACCESS_KEY")
 secret_key = os.getenv("AWS_SECRET_KEY")
+aws_token = os.getenv("AWS_SESSION_TOKEN")
 aws_region = os.getenv("AWS_REGION")
 tablename = os.getenv("DDB_TABLE_NAME")
 connect = os.getenv("LOCALHOST_ONLY")
@@ -21,7 +22,7 @@ if (connect == "true"):
 
 app = Flask(__name__)
 CORS(app)
-ddb = boto3.resource('dynamodb', aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=aws_region)
+ddb = boto3.resource('dynamodb', aws_access_key_id=access_key, aws_secret_access_key=secret_key, aws_session_token=aws_token, region_name=aws_region)
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o): # pylint: disable=E0202
